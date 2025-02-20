@@ -71,9 +71,9 @@
     }
     callCount++;
 
-    let url = `${baseUrl}/game-task?game=${game}&npcName=${npcName}`;
+    let url = `${baseUrl}/game-task?game=${game}&npc=${npcName}`;
     if (lastResponse?.next_game_phrase) {
-      url = `${baseUrl}/grader?game=${game}&phrase=${lastResponse.next_game_phrase}&npcName=${npcName}`;
+      url = `${baseUrl}/grader?game=${game}&phrase=${lastResponse.next_game_phrase}&npc=${npcName}`;
     }
 
     const xhr = new XMLHttpRequest();
@@ -91,7 +91,9 @@
           if (json.message) {
             $gameMessage.add(wrapText(json.message));
           }
-          lastResponse = json;
+          if (json.status === 'OK') {
+            lastResponse = json;
+          }
         } else {
           $gameMessage.add('Sorry I cannot connect to the server!');
         }
